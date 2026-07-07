@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rajat &amp; Kamlesh — Wedding Invitation · 19 July 2026</title>
+  <meta name="description" content="Join Rajat &amp; Kamlesh for their wedding celebration on 19 July 2026 at Fulai Garden, Phaltan, Satara." />
+  <meta property="og:title" content="Rajat &amp; Kamlesh - Wedding Invitation" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="A wedding invitation showcasing event details and venue information." />
+
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Falling petals across the whole site -->
+  <div class="petal-layer" id="petalLayer" aria-hidden="true"></div>
+
+  <!-- Background music -->
+  <audio id="bgAudio" src="audio/background.mp3" preload="auto" loop></audio>
+
+  <!-- ============ ENVELOPE LANDING ============ -->
+  <div id="landing">
+    <span class="corner-deco tl">🌸</span>
+    <span class="corner-deco tr">🌼</span>
+    <span class="corner-deco bl">🌿</span>
+    <span class="corner-deco br">🌿</span>
+
+    <div class="landing-inner">
+      <button class="envelope-btn" id="openBtn" aria-label="Open invitation">
+        <img src="assets/envelope.png" alt="Wedding invitation envelope" />
+        <span class="envelope-seal">
+          <span><span class="monogram">R &amp; K</span></span>
+        </span>
+      </button>
+
+      <div class="landing-caption">
+        <h2 class="font-script">You're Invited</h2>
+        <p>Tap the envelope to open your invitation</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Music toggle -->
+  <button class="music-btn" id="musicBtn" aria-label="Mute background music" style="display:none;">
+    <svg id="iconOn" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+    <svg id="iconOff" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+  </button>
+
+  <!-- ============ MAIN INVITATION ============ -->
+  <main id="invitation">
+
+    <!-- Hero -->
+    <section class="hero">
+      <img class="hero-bg" src="assets/wedding-hero.jpg" alt="Rajat and Kamlesh wedding illustration" width="1920" height="1080" />
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="animate-fade-up">
+          <img class="ganesh" src="assets/ganesh-idol.png" alt="Lord Ganesha" width="96" height="96" />
+          <p class="ganesh-namah">‖ Shree Ganeshaya Namah ‖</p>
+        </div>
+        <p class="hero-invite animate-fade-up delay-200">We cordially invite you to witness the beginning of our forever and celebrate the wedding ceremony of</p>
+        <h1 class="animate-fade-up delay-300"><span class="couple-name">Rajat</span></h1>
+        <p class="parents">S/o Mr. Sanjay Deshmukh<br />&amp; Mrs. Seema Deshmukh</p>
+        <p class="with-word">with</p>
+        <h1><span class="couple-name">Kamlesh</span></h1>
+        <p class="parents pb-hero">D/o Mr. Dasharath Yadav<br />&amp; Mrs. Ujjwala Yadav</p>
+      </div>
+    </section>
+
+    <!-- Save the date + scratch to reveal -->
+    <section class="section bg-cream">
+      <span class="section-deco tl">🌿</span>
+      <span class="section-deco tr">🌸</span>
+      <span class="section-deco bl">🌼</span>
+      <span class="section-deco br">🌿</span>
+      <div class="stack-center">
+        <div class="divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+        <div class="scratch-wrap">
+          <div class="scratch-card">
+            <div class="scratch-reveal">
+              <p class="std">SAVE THE DATE</p>
+              <p class="date">19th July 2026</p>
+            </div>
+            <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+          </div>
+        </div>
+        <div class="countdown" id="countdown">
+          <div class="countdown-grid">
+            <div class="cd-unit"><div class="cd-box"><span id="cd-days">00</span></div><span class="cd-label">Days</span></div>
+            <div class="cd-unit"><div class="cd-box"><span id="cd-hours">00</span></div><span class="cd-label">Hours</span></div>
+            <div class="cd-unit"><div class="cd-box"><span id="cd-mins">00</span></div><span class="cd-label">Minutes</span></div>
+            <div class="cd-unit"><div class="cd-box"><span id="cd-secs">00</span></div><span class="cd-label">Seconds</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events schedule -->
+    <section class="section bg-sage">
+      <span class="section-deco tl">🌿</span>
+      <span class="section-deco tr">🌸</span>
+      <span class="section-deco bl">🌼</span>
+      <span class="section-deco br">🌿</span>
+      <div class="events-wrap">
+        <div class="events-head">
+          <h2 class="section-title">Events Schedule</h2>
+          <div class="divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+        </div>
+        <div class="events-grid">
+
+          <article class="event-card img-left">
+            <img class="card-bg" src="assets/bg-sangeet.jpg" alt="" aria-hidden="true" />
+            <div class="card-scrim"></div>
+            <div class="event-inner">
+              <div class="event-illus"><img src="assets/couple-sangeet.png" alt="Sangeet couple illustration" /></div>
+              <div class="event-text">
+                <h3>Sangeet</h3>
+                <p class="subtitle">A spirited night of song, dance and laughter</p>
+                <div class="event-divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+                <div class="event-details">
+                  <div><div class="lbl">Date</div><div class="val">FRI · July 17, 2026</div></div>
+                  <div><div class="lbl">Time</div><div class="val">08:00 PM onwards</div></div>
+                  <div><div class="lbl">Venue</div><div class="val sm">Vikhale, Khatav Taluka, Satara</div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="event-card img-right">
+            <img class="card-bg" src="assets/bg-gavdev.jpg" alt="" aria-hidden="true" />
+            <div class="card-scrim"></div>
+            <div class="event-inner">
+              <div class="event-illus"><img src="assets/couple-gavdev.png" alt="Gavdev couple illustration" /></div>
+              <div class="event-text">
+                <h3>Gavdev</h3>
+                <p class="subtitle">Seeking blessings from the village deity</p>
+                <div class="event-divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+                <div class="event-details">
+                  <div><div class="lbl">Date</div><div class="val">SAT · July 18, 2026</div></div>
+                  <div><div class="lbl">Time</div><div class="val">07:00 PM onwards</div></div>
+                  <div><div class="lbl">Venue</div><div class="val sm">Vikhale, Khatav Taluka, Satara</div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="event-card img-left">
+            <img class="card-bg" src="assets/bg-haldi.jpg" alt="" aria-hidden="true" />
+            <div class="card-scrim"></div>
+            <div class="event-inner">
+              <div class="event-illus"><img src="assets/couple-haldi.png" alt="Haldi couple illustration" /></div>
+              <div class="event-text">
+                <h3>Haldi</h3>
+                <p class="subtitle">A joyful morning of haldi, blessings and laughter</p>
+                <div class="event-divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+                <div class="event-details">
+                  <div><div class="lbl">Date</div><div class="val">SUN · July 19, 2026</div></div>
+                  <div><div class="lbl">Time</div><div class="val">11:00 AM onwards</div></div>
+                  <div><div class="lbl">Venue</div><div class="val sm">Fulai Garden, Zirapwadi, Phaltan, Satara</div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="event-card img-right">
+            <img class="card-bg" src="assets/bg-sapthapadi.jpg" alt="" aria-hidden="true" />
+            <div class="card-scrim"></div>
+            <div class="event-inner">
+              <div class="event-illus"><img src="assets/couple-sapthapadi.png" alt="Sapthapadi couple illustration" /></div>
+              <div class="event-text">
+                <h3>Sapthapadi</h3>
+                <p class="subtitle">The sacred seven vows under the floral mandap</p>
+                <div class="event-divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+                <div class="event-details">
+                  <div><div class="lbl">Date</div><div class="val">SUN · July 19, 2026</div></div>
+                  <div><div class="lbl">Time</div><div class="val">03:48 PM</div></div>
+                  <div><div class="lbl">Venue</div><div class="val sm">Fulai Garden, Zirapwadi, Phaltan, Satara</div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="event-card img-left">
+            <img class="card-bg" src="assets/bg-varmala.jpg" alt="" aria-hidden="true" />
+            <div class="card-scrim"></div>
+            <div class="event-inner">
+              <div class="event-illus"><img src="assets/couple-varmala.png" alt="Varmala couple illustration" /></div>
+              <div class="event-text">
+                <h3>Varmala</h3>
+                <p class="subtitle">The exchange of garlands and a joyous celebration</p>
+                <div class="event-divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+                <div class="event-details">
+                  <div><div class="lbl">Date</div><div class="val">SUN · July 19, 2026</div></div>
+                  <div><div class="lbl">Time</div><div class="val">06:15 PM</div></div>
+                  <div><div class="lbl">Venue</div><div class="val sm">Fulai Garden, Zirapwadi, Phaltan, Satara</div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Awaiting your noble presence -->
+    <section class="section bg-cream" style="padding-top:6rem;padding-bottom:6rem;">
+      <span class="section-deco tl">🌿</span>
+      <span class="section-deco tr">🌸</span>
+      <span class="section-deco bl">🌼</span>
+      <span class="section-deco br">🌿</span>
+      <div class="centered-narrow">
+        <h2 class="section-title">Awaiting Your Noble Presence</h2>
+        <div class="divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+        <p class="quote">Because meeting two souls requires twice the fun — and you!</p>
+      </div>
+    </section>
+
+    <!-- The families -->
+    <section class="section bg-sage">
+      <span class="section-deco tl">🌿</span>
+      <span class="section-deco tr">🌸</span>
+      <span class="section-deco bl">🌼</span>
+      <span class="section-deco br">🌿</span>
+      <div class="families-wrap">
+        <p class="eyebrow">WITH LOVE</p>
+        <h2 class="section-title">The Families</h2>
+        <div class="divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+        <div class="family-card">
+          <p class="eyebrow">AWAITING YOUR GRACIOUS PRESENCE</p>
+          <div class="divider sm"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+          <p class="name">Mr. Sanjay Deshmukh</p>
+          <p class="name">Mrs. Seema Deshmukh</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Venue -->
+    <section class="section bg-cream">
+      <span class="section-deco tl">🌿</span>
+      <span class="section-deco tr">🌸</span>
+      <span class="section-deco bl">🌼</span>
+      <span class="section-deco br">🌿</span>
+      <div class="venue-wrap">
+        <p class="eyebrow">VENUE</p>
+        <h2 class="section-title">Where We Celebrate</h2>
+        <div class="divider"><span class="line"></span><span class="flower">❀</span><span class="line"></span></div>
+        <p class="venue-address">Fulai Garden, Zirapwadi, Phaltan, Satara, Maharashtra</p>
+        <div class="map-frame">
+          <iframe title="Venue map" src="https://www.google.com/maps?q=Fulai+Garden+Zirapwadi+Phaltan+Satara&output=embed" loading="lazy"></iframe>
+        </div>
+        <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Fulai+Garden+Zirapwadi+Phaltan+Satara" target="_blank" rel="noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+          Get Directions
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p class="fl-eyebrow">WITH LOVE</p>
+      <h3>Rajat &amp; Kamlesh</h3>
+      <div class="footer-divider"><span class="line"></span><span class="bouquet">💐</span><span class="line"></span></div>
+      <p class="fdate">19th July 2026</p>
+      <p class="hashtag">#RAJATKIKAMLESH</p>
+    </footer>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
