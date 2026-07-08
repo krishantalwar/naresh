@@ -1,23 +1,49 @@
 /* ============================================================
    Rajat & Kamlesh — Wedding Invitation
-   Interactions: petals, envelope, music, scratch card, countdown
+   Interactions: petals, envelope, music, scratch card, countdown,
+   scroll-reveal, hero parallax
    ============================================================ */
 
 // ---- Wedding date (used by countdown) ----
 const WEDDING_DATE = new Date("2026-07-19T11:00:00+05:30");
+const PREFERS_REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ---------- Floating petals ---------- */
+/* ---------- Floating petals (crafted SVG, not emoji) ---------- */
 (function petals() {
   const layer = document.getElementById("petalLayer");
   if (!layer) return;
-  const glyphs = ["🌸", "🌸", "🌿", "🌸", "🌼", "🌿", "🌸", "🌸"];
+
+  const blossom = (petal, center) => {
+    let p = "";
+    for (let a = 0; a < 360; a += 72) {
+      p += `<ellipse cx="0" cy="-11" rx="5.5" ry="9" transform="rotate(${a})"/>`;
+    }
+    return `<svg viewBox="-20 -20 40 40" xmlns="http://www.w3.org/2000/svg">` +
+      `<g fill="${petal}">${p}</g><circle r="4.5" fill="${center}"/></svg>`;
+  };
+  const leaf = (c) => `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">` +
+    `<path d="M20 3C31 11 31 27 20 37 9 27 9 11 20 3Z" fill="${c}"/>` +
+    `<path d="M20 6V34" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.3"/></svg>`;
+  const petal = (c) => `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">` +
+    `<path d="M20 3C29 13 29 26 20 37 11 26 11 13 20 3Z" fill="${c}"/></svg>`;
+
+  // weighted toward soft pink blossoms, with occasional gold, cream & sage
+  const shapes = [
+    blossom("#ef9bb3", "#e6c063"), blossom("#ef9bb3", "#e6c063"),
+    blossom("#f7c9d6", "#e6c063"), blossom("#fdf3e6", "#dcaf4e"),
+    petal("#f2b6c6"), blossom("#ef9bb3", "#e6c063"),
+    leaf("#8fa876"), leaf("#9db884"),
+  ];
+
   const COUNT = 18;
   for (let i = 0; i < COUNT; i++) {
     const s = document.createElement("span");
     s.className = "petal";
-    s.textContent = glyphs[i % glyphs.length];
+    s.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+    const size = 16 + Math.random() * 20;
+    s.style.width = size + "px";
+    s.style.height = size + "px";
     s.style.left = (Math.random() * 100) + "%";
-    s.style.fontSize = (16 + Math.random() * 20) + "px";
     s.style.animationDuration = (14 + Math.random() * 15) + "s";
     s.style.animationDelay = (Math.random() * 12) + "s";
     layer.appendChild(s);
@@ -51,6 +77,8 @@ function openInvitation() {
     // the scratch canvas was hidden (display:none) until now, so it painted
     // at 0x0 — repaint it now that it has real dimensions.
     if (window.__initScratch) window.__initScratch();
+    // kick the scroll-reveal observer now that content has layout
+    if (window.__initReveal) window.__initReveal();
   }, 900);
   setTimeout(() => { landing.style.display = "none"; }, 1700);
 }
@@ -152,6 +180,18 @@ musicBtn.addEventListener("click", () => {
   if (!d) return;
   const pad = (n) => String(n).padStart(2, "0");
 
+  // update text and give the tile a subtle pop when its value changes
+  function setVal(el, v) {
+    if (el.textContent === v) return;
+    el.textContent = v;
+    if (PREFERS_REDUCED) return;
+    const box = el.closest(".cd-box");
+    if (!box) return;
+    box.classList.remove("pop");
+    void box.offsetWidth; // restart the animation
+    box.classList.add("pop");
+  }
+
   function tick() {
     const now = new Date();
     let diff = Math.max(0, WEDDING_DATE - now);
@@ -159,11 +199,58 @@ musicBtn.addEventListener("click", () => {
     const hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
     const mins = Math.floor(diff / 60000); diff -= mins * 60000;
     const secs = Math.floor(diff / 1000);
-    d.textContent = pad(days);
-    h.textContent = pad(hours);
-    m.textContent = pad(mins);
-    s.textContent = pad(secs);
+    setVal(d, pad(days));
+    setVal(h, pad(hours));
+    setVal(m, pad(mins));
+    setVal(s, pad(secs));
   }
   tick();
   setInterval(tick, 1000);
+})();
+
+/* ---------- Scroll-reveal (fade + rise as sections enter view) ---------- */
+(function reveal() {
+  const nodes = document.querySelectorAll(
+    ".stack-center, .events-head, .event-card, .centered-narrow, .families-wrap, .venue-wrap, .site-footer"
+  );
+  if (!nodes.length) return;
+
+  if (PREFERS_REDUCED || !("IntersectionObserver" in window)) {
+    nodes.forEach((n) => n.classList.add("reveal", "in"));
+    return;
+  }
+
+  nodes.forEach((n) => n.classList.add("reveal"));
+  // gentle left/right stagger for the two-column event grid
+  document.querySelectorAll(".events-grid .event-card").forEach((c, i) => {
+    c.style.transitionDelay = (i % 2 === 1 ? 0.12 : 0) + "s";
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+  // (re)observe — called once now and again when the invitation is revealed
+  window.__initReveal = () => nodes.forEach((n) => { if (!n.classList.contains("in")) io.observe(n); });
+  window.__initReveal();
+})();
+
+/* ---------- Hero background parallax ---------- */
+(function heroParallax() {
+  const bg = document.querySelector(".hero-bg");
+  if (!bg || PREFERS_REDUCED) return;
+  let ticking = false;
+  function update() {
+    const y = window.scrollY || window.pageYOffset || 0;
+    if (y < window.innerHeight) {
+      bg.style.transform = `translateY(${y * 0.25}px) scale(1.12)`;
+    }
+    ticking = false;
+  }
+  window.addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  update();
 })();
