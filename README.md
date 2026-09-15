@@ -6,12 +6,13 @@ A single-page wedding invitation website (built React app), served as static fil
 
 ```
 .
-├── index.html            # App entry point
-├── vercel.json           # SPA routing (all routes → index.html)
+├── index.html            # App entry point (the invitation)
+├── contact.html          # "Get in Touch" page (plain static page)
+├── vercel.json           # Routing (/contact → contact.html, rest → index.html)
 ├── README.md
 └── assets/
-    ├── js/               # JavaScript bundles (index-*.js)
-    ├── css/              # Stylesheet (styles-*.css)
+    ├── js/               # JavaScript bundles (index-*.js) + contact.js
+    ├── css/              # Stylesheet (styles-*.css) + contact.css
     ├── images/           # Images (*.webp)
     └── media/            # Video / audio (envelope-intro.mp4, …)
 ```
@@ -72,3 +73,45 @@ address it was registered with, so it is safe to ship in the bundle.
 
 If the key is ever cleared or reverted to a placeholder, the form refuses to send
 and shows guests a "not connected yet" notice rather than failing silently.
+
+## Contact page
+
+`contact.html` is a **Get in Touch** page where guests can ask a question. It is a
+plain static page — no React, no bundle — with its own `assets/css/contact.css`
+and `assets/js/contact.js`. It deliberately does not load `styles-*.css`, because
+that file is a purged Tailwind build and only contains the utilities the app
+itself uses.
+
+Guests reach it from the **GET IN TOUCH** button at the bottom of the RSVP
+section, next to *Get Directions*. It is served at both `/contact` and
+`/contact.html`.
+
+The details shown on the page live in `contact.html`:
+
+| What | Value | Appears as |
+| --- | --- | --- |
+| Email | `nsmmitawa@gmail.com` | `mailto:` link |
+| Phone | `8685014330` | `tel:+918685014330` |
+| WhatsApp | same number | `https://wa.me/918685014330` |
+
+Its form emails name, email, phone, topic and message, with `Reply-To` set to the
+guest's own address so replying in Gmail goes straight back to them. Subject line:
+*Wedding Website Enquiry — Rajat & Kamlesh*.
+
+> **The Web3Forms key now lives in two files.** If you change it, change it in
+> **both** `assets/js/index-BaQzgteU2.js` (RSVP) and `assets/js/contact.js`
+> (contact form), or one of the two forms will stop delivering.
+
+## Editing the invitation itself
+
+`index.html` is a **prerendered copy** of what the React bundle renders. Any change
+to the invitation's markup must be made twice — once in
+`assets/js/index-BaQzgteU2.js` and identically in `index.html` — or React will
+report a hydration mismatch and may discard the server markup. After editing the
+bundle, check it still parses before serving:
+
+```bash
+cp assets/js/index-BaQzgteU2.js /tmp/check.mjs && node --check /tmp/check.mjs
+```
+
+This does not apply to `contact.html`, which is a normal standalone page.
