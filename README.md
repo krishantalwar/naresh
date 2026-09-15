@@ -41,8 +41,13 @@ This is a static site with no build step.
 
 Or from the CLI: `npx vercel --prod`
 
-## Note
+## Background music
 
-The background music file `assets/media/CantHelpFallingInLove.mp3` is
-referenced by the app but is **not included** in this repository. Add the
-file at that path to enable background music.
+`assets/media/jashn-e-bahaaraa.mp3` — *Jashn-E-Bahaaraa (Instrumental, Flute)*
+by A.R. Rahman, from the *Jodhaa Akbar* soundtrack. 5:15, re-encoded to 96 kbps
+(3.6 MB) with cover art stripped to keep the page light.
+
+It starts when the envelope is opened, loops, and plays at 50% volume. A
+mute/play toggle sits in the bottom-right corner. To start the track partway in
+instead of at the beginning, change `ya=0` in `assets/js/index-BaQzgteU2.js`
+to the desired offset in seconds.
