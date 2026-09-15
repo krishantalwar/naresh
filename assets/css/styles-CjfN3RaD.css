@@ -2,3 +2,8 @@
 
 /* wedding-overrides */
 
+
+/* rsvp-decline-note */
+.rsvp-decline-note{min-height:196px}
+.rsvp-decline-copy{max-width:250px;font-size:11px;line-height:1.45;color:color-mix(in oklab,#1a2c5b 70%,transparent)}
+@media (min-width:768px){.rsvp-decline-note{min-height:238px}.rsvp-decline-copy{font-size:12px}}
