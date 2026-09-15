@@ -7,7 +7,7 @@ A single-page wedding invitation website (built React app), served as static fil
 ```
 .
 ├── index.html            # App entry point (the invitation)
-├── contact.html          # "Get in Touch" page (plain static page)
+├── contact.html          # "Want a site like this?" enquiry page (plain static)
 ├── vercel.json           # Routing (/contact → contact.html, rest → index.html)
 ├── README.md
 └── assets/
@@ -74,16 +74,20 @@ address it was registered with, so it is safe to ship in the bundle.
 If the key is ever cleared or reverted to a placeholder, the form refuses to send
 and shows guests a "not connected yet" notice rather than failing silently.
 
-## Contact page
+## Enquiry page
 
-`contact.html` is a **Get in Touch** page where guests can ask a question. It is a
-plain static page — no React, no bundle — with its own `assets/css/contact.css`
-and `assets/js/contact.js`. It deliberately does not load `styles-*.css`, because
-that file is a purged Tailwind build and only contains the utilities the app
-itself uses.
+`contact.html` is the **Want a Site Like This?** page. It is primarily a lead
+page: someone sees this invitation, likes it, and wants one built for their own
+wedding. It also handles guests of Rajat & Kamlesh who have a question, via the
+topic dropdown — so one page serves both audiences.
 
-Guests reach it from the **GET IN TOUCH** button at the bottom of the RSVP
-section, next to *Get Directions*. It is served at both `/contact` and
+It is a plain static page — no React, no bundle — with its own
+`assets/css/contact.css` and `assets/js/contact.js`. It deliberately does not
+load `styles-*.css`, because that file is a purged Tailwind build containing only
+the utilities the app itself uses.
+
+Visitors reach it from the **WANT A SITE LIKE THIS?** button at the bottom of the
+RSVP section, next to *Get Directions*. It is served at both `/contact` and
 `/contact.html`.
 
 The details shown on the page live in `contact.html`:
@@ -94,13 +98,27 @@ The details shown on the page live in `contact.html`:
 | Phone | `8685014330` | `tel:+918685014330` |
 | WhatsApp | same number | `https://wa.me/918685014330` |
 
-Its form emails name, email, phone, topic and message, with `Reply-To` set to the
-guest's own address so replying in Gmail goes straight back to them. Subject line:
-*Wedding Website Enquiry — Rajat & Kamlesh*.
+### How the form routes
+
+The topic dropdown decides everything downstream, so the two kinds of sender
+never get confused in the inbox:
+
+| Topic chosen | Subject line | Wedding-date field |
+| --- | --- | --- |
+| Anything about building a site | `New Website Enquiry — <topic>` | shown, sent |
+| *A guest question about Rajat & Kamlesh's wedding* | `Wedding Question — Rajat & Kamlesh` | hidden, not sent |
+
+`Reply-To` is always set to the sender's own address, so replying in Gmail goes
+straight back to them.
+
+To change what the page offers, edit the six `.feature` blocks in
+`contact.html`. To change the topics, edit the `<option>`s — and if you rename
+the guest option, update `GUEST_TOPIC` in `assets/js/contact.js` to match it
+**exactly**, or every enquiry will be treated as a website enquiry.
 
 > **The Web3Forms key now lives in two files.** If you change it, change it in
 > **both** `assets/js/index-BaQzgteU2.js` (RSVP) and `assets/js/contact.js`
-> (contact form), or one of the two forms will stop delivering.
+> (enquiry form), or one of the two forms will stop delivering.
 
 ## Editing the invitation itself
 
