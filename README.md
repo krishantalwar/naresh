@@ -51,3 +51,24 @@ It starts when the envelope is opened, loops, and plays at 50% volume. A
 mute/play toggle sits in the bottom-right corner. To start the track partway in
 instead of at the beginning, change `ya=0` in `assets/js/index-BaQzgteU2.js`
 to the desired offset in seconds.
+
+## RSVP form
+
+The RSVP form posts to [Web3Forms](https://web3forms.com). It is **configured and
+live** — submissions are emailed to `nsmmitawa@gmail.com`.
+
+Each submission emails: name, Accept/Decline, number of guests, and which events
+they're joining. Subject line: *New Wedding RSVP — Rajat & Kamlesh*.
+
+To change the destination address, get a new access key from web3forms.com (free,
+no account) and replace this line in `assets/js/index-BaQzgteU2.js`:
+
+```js
+const RSVP_ACCESS_KEY="43c67142-1bac-4ae1-a980-8c847790bbd3"
+```
+
+The key is a public, client-side key by design — it only permits sending to the
+address it was registered with, so it is safe to ship in the bundle.
+
+If the key is ever cleared or reverted to a placeholder, the form refuses to send
+and shows guests a "not connected yet" notice rather than failing silently.
